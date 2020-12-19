@@ -1,0 +1,13 @@
+{
+  "name": "katex-mathtype",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Maxymashar/katex-mathtype.git",
+  "author": "Maxwell Masharia <maxymashar@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "css-loader": "^5.0.1",
+    "katex": "^0.12.0",
+    "style-loader": "^2.0.0"
+  }
+}
