@@ -150,6 +150,8 @@ class Resizer {
 
         const stopMove = () => {
           window.removeEventListener('mousemove', move);
+          this.originalX = null;
+          this.originalY = null;
         };
         window.addEventListener('mousemove', move);
         window.addEventListener('mouseup', stopMove);
