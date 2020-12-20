@@ -72,3 +72,51 @@ body {
   height: var(--bar-height);
   background-color: red;
 }
+
+.details {
+  width: 300px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #636363;
+  color: #fff;
+}
+
+.details h1 {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.box-one,
+.box-two {
+  border: 2px solid rgb(255, 232, 28);
+  margin: 6px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.box-name {
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.dim {
+  font-family: consolas;
+  font-size: 1.2rem;
+}
+
+.diff {
+  border: 2px solid rgb(255, 0, 255);
+  margin: 6px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.diff span {
+  font-size: 1.2rem;
+  font-family: consolas;
+}

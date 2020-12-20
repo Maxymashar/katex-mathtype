@@ -1,5 +1,5 @@
 class Resizer {
-  constructor(initialTranslateX, initialTranslateY, color) {
+  constructor(initialTranslateX, initialTranslateY, color, onDimensionChange) {
     // The global translations
     this.globalTranslateX = initialTranslateX;
     this.globalTranslateY = initialTranslateY;
@@ -10,6 +10,8 @@ class Resizer {
 
     this.originalX = null;
     this.originalY = null;
+    this.div = null;
+    this.onDimensionChange = onDimensionChange;
   }
   addMotion(resizer, resizableDiv, position) {
     switch (position) {
@@ -20,6 +22,11 @@ class Resizer {
             const newWidth = clientX - left;
             resizableDiv.style.width = `${newWidth}px`;
 
+            // Call onDimensionChange
+            this.onDimensionChange(
+              resizableDiv.offsetWidth,
+              resizableDiv.offsetHeight
+            );
             // Set the translations
             resizableDiv.style.transform = `translateX(${this.globalTranslateX}px) translateY(${this.globalTranslateY}px)`;
           };
@@ -42,6 +49,11 @@ class Resizer {
             resizableDiv.style.width = `${
               difference + resizableDiv.offsetWidth
             }px`;
+            // Call onDimensionChange
+            this.onDimensionChange(
+              resizableDiv.offsetWidth,
+              resizableDiv.offsetHeight
+            );
             // Set the translations
             this.globalTranslateX -= difference;
             resizableDiv.style.transform = `translateX(${this.globalTranslateX}px) translateY(${this.globalTranslateY}px)`;
@@ -59,6 +71,11 @@ class Resizer {
             const { top } = resizableDiv.getBoundingClientRect();
             const newHeight = clientY - top;
             resizableDiv.style.height = `${newHeight}px`;
+            // Call onDimensionChange
+            this.onDimensionChange(
+              resizableDiv.offsetWidth,
+              resizableDiv.offsetHeight
+            );
           };
           const stopResize = () => {
             window.removeEventListener('mousemove', resize);
@@ -77,6 +94,11 @@ class Resizer {
               difference + resizableDiv.offsetHeight
             }px`;
 
+            // Call onDimensionChange
+            this.onDimensionChange(
+              resizableDiv.offsetWidth,
+              resizableDiv.offsetHeight
+            );
             this.globalTranslateY -= difference;
             resizableDiv.style.transform = `translateX(${this.globalTranslateX}px) translateY(${this.globalTranslateY}px)`;
           };
@@ -123,7 +145,7 @@ class Resizer {
   render() {
     const body = document.querySelector('body');
     const resizableDiv = document.createElement('div');
-
+    this.div = resizableDiv;
     const onMouseDown = ({
       clientX: mouseDownX,
       clientY: mouseDownY,
