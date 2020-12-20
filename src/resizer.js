@@ -7,6 +7,9 @@ class Resizer {
     this.originalRight = null;
     this.originalBottom = null;
     this.backgroundColor = color;
+
+    this.originalX = null;
+    this.originalY = null;
   }
   addMotion(resizer, resizableDiv, position) {
     switch (position) {
@@ -32,21 +35,16 @@ class Resizer {
           // reset the originalRight
           // this.originalRight = null;
           const resize = ({ clientX }) => {
-            const { right, left } = resizer.getBoundingClientRect();
-            if (!this.originalRight) {
-              this.originalRight = right;
-            } else {
-              // Get the difference
-              const difference = left - clientX;
+            const { left } = resizer.getBoundingClientRect();
+            // Get the difference
+            const difference = left - clientX;
 
-              resizableDiv.style.width = `${
-                difference + resizableDiv.offsetWidth
-              }px`;
-              // Set the translations
-              this.globalTranslateX -= difference;
-              resizableDiv.style.transform = `translateX(${this.globalTranslateX}px) translateY(${this.globalTranslateY}px)`;
-              console.log(this.globalTranslateX);
-            }
+            resizableDiv.style.width = `${
+              difference + resizableDiv.offsetWidth
+            }px`;
+            // Set the translations
+            this.globalTranslateX -= difference;
+            resizableDiv.style.transform = `translateX(${this.globalTranslateX}px) translateY(${this.globalTranslateY}px)`;
           };
           const stopResize = () => {
             window.removeEventListener('mousemove', resize);
@@ -125,6 +123,39 @@ class Resizer {
   render() {
     const body = document.querySelector('body');
     const resizableDiv = document.createElement('div');
+
+    const onMouseDown = ({
+      clientX: mouseDownX,
+      clientY: mouseDownY,
+      shiftKey,
+    }) => {
+      if (shiftKey) {
+        const move = ({ clientX, clientY }) => {
+          if (!this.originalX && !this.originalY) {
+            this.originalX = mouseDownX;
+            this.originalY = mouseDownY;
+          } else {
+            // Get the differences
+            const dx = clientX - this.originalX;
+            const dy = clientY - this.originalY;
+            // Set the transforms
+            this.globalTranslateX += dx;
+            this.globalTranslateY += dy;
+            resizableDiv.style.transform = `translateX(${this.globalTranslateX}px) translateY(${this.globalTranslateY}px)`;
+            // Reset the original Values
+            this.originalX = clientX;
+            this.originalY = clientY;
+          }
+        };
+
+        const stopMove = () => {
+          window.removeEventListener('mousemove', move);
+        };
+        window.addEventListener('mousemove', move);
+        window.addEventListener('mouseup', stopMove);
+      }
+    };
+    resizableDiv.addEventListener('mousedown', onMouseDown);
     // Add the styles
     resizableDiv.classList.add('resizable-div');
     // Set the translations

@@ -1,6 +1,7 @@
 :root {
   --background-color: #d3d3d3;
-  --resizer-size: 24px;
+  --resizer-size: 14px;
+  --bar-height: 4px;
 }
 
 * {
@@ -27,7 +28,7 @@ body {
   width: 150px;
   height: 150px;
   outline: 2px solid #373737;
-  position: relative;
+  position: absolute;
 }
 
 .res {
@@ -58,4 +59,16 @@ body {
   bottom: calc(50% - var(--resizer-size) * 0.5);
   right: calc(var(--resizer-size) * -0.5);
   cursor: e-resize;
+}
+
+.bar {
+  position: absolute;
+}
+
+.bar-top {
+  top: 0;
+  left: 0px;
+  right: 0px;
+  height: var(--bar-height);
+  background-color: red;
 }
