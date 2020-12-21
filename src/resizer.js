@@ -1,9 +1,7 @@
 class Resizer {
-  constructor(initialTranslateX, initialTranslateY, color, onDimensionChange) {
-    // The global translations
+  constructor(initialTranslateX, initialTranslateY, color, onDimensionChange,outlineColor) {
     this.globalTranslateX = initialTranslateX;
     this.globalTranslateY = initialTranslateY;
-    // The originalLeft,originalBottom Positions
     this.originalRight = null;
     this.originalBottom = null;
     this.backgroundColor = color;
@@ -12,6 +10,7 @@ class Resizer {
     this.originalY = null;
     this.div = null;
     this.onDimensionChange = onDimensionChange;
+    this.outlineColor = outlineColor;
   }
   addMotion(resizer, resizableDiv, position) {
     switch (position) {
@@ -115,26 +114,38 @@ class Resizer {
     const topResizer = document.createElement('div');
     topResizer.classList.add('res-top');
     topResizer.classList.add('res');
-    topResizer.style.backgroundColor = this.backgroundColor;
+    // topResizer.addEventListener('click', () =>
+    //   topResizer.classList.toggle('not-visible')
+    // );
     this.addMotion(topResizer, resizableDiv, 'top');
+    topResizer.style.backgroundColor = this.backgroundColor;
 
     const bottomResizer = document.createElement('div');
     bottomResizer.classList.add('res-bottom');
     bottomResizer.classList.add('res');
+    // bottomResizer.addEventListener('click', () =>
+    //   bottomResizer.classList.toggle('not-visible')
+    // );
     this.addMotion(bottomResizer, resizableDiv, 'bottom');
-
     bottomResizer.style.backgroundColor = this.backgroundColor;
+
     const leftResizer = document.createElement('div');
     leftResizer.classList.add('res-left');
     leftResizer.classList.add('res');
-    leftResizer.style.backgroundColor = this.backgroundColor;
+    // leftResizer.addEventListener('click', () =>
+    //   leftResizer.classList.toggle('not-visible')
+    // );
     this.addMotion(leftResizer, resizableDiv, 'left');
+    leftResizer.style.backgroundColor = this.backgroundColor;
 
     const rightResizer = document.createElement('div');
     rightResizer.classList.add('res-right');
     rightResizer.classList.add('res');
-    rightResizer.style.backgroundColor = this.backgroundColor;
+    // rightResizer.addEventListener('click', () =>
+    //   rightResizer.classList.toggle('not-visible')
+    // );
     this.addMotion(rightResizer, resizableDiv, 'right');
+    rightResizer.style.backgroundColor = this.backgroundColor;
 
     // Append the resizers
     resizableDiv.appendChild(topResizer);
@@ -145,6 +156,7 @@ class Resizer {
   render() {
     const body = document.querySelector('body');
     const resizableDiv = document.createElement('div');
+    resizableDiv.style.outlineColor = this.outlineColor;
     this.div = resizableDiv;
     const onMouseDown = ({
       clientX: mouseDownX,
@@ -167,6 +179,12 @@ class Resizer {
             // Reset the original Values
             this.originalX = clientX;
             this.originalY = clientY;
+
+            // call onMouseChange\
+            this.onDimensionChange(
+              resizableDiv.offsetWidth,
+              resizableDiv.offsetHeight
+            );
           }
         };
 

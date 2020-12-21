@@ -1,43 +1,58 @@
 import { Resizer } from './resizer';
+import './katex';
 
-const blueWidth = document.getElementById('blue-width');
-const blueHeight = document.getElementById('blue-height');
-const pinkWidth = document.getElementById('pink-width');
-const pinkHeight = document.getElementById('pink-height');
-const spanDx = document.getElementById('dx');
-const spanDy = document.getElementById('dy');
+const pinkBox = document.getElementById('pink-box');
+const amberBox = document.getElementById('amber-box');
 
-let pinkResizer = { newWidth: 150, newHeight: 150 };
-let blueResizer = { newWidth: 150, newHeight: 150 };
+const pinkResizableBox = new Resizer(
+  50,
+  100,
+  'rgb(255, 103, 129)',
+  function () {
+    const {
+      div: { offsetWidth: width },
+      div: { offsetHeight: height },
+      div,
+    } = this;
+    const { top, bottom, left, right } = div.getBoundingClientRect();
 
-const resizerOne = new Resizer(50, 100, 'pink', (newWidth, newHeight) => {
-  pinkResizer = { newWidth, newHeight };
-  getRelations();
-});
+    const innerText = `
+  <span class="dim">Width : ${width}</span>
+  <span class="dim">Height : ${height}</span>
+  <span class="dim">Top : ${top}</span>
+  <span class="dim">Bottom : ${bottom}</span>
+  <span class="dim">Left : ${left}</span>
+  <span class="dim">Right : ${right}</span>
+  `;
+    pinkBox.innerHTML = innerText;
+  },
+  'violet'
+);
 
-const resizerTwo = new Resizer(50, 300, 'blue', (newWidth, newHeight) => {
-  blueResizer = { newWidth, newHeight };
-  getRelations();
-});
+const amberResizableBox = new Resizer(
+  50,
+  300,
+  '#ffe600',
+  function () {
+    const {
+      div: { offsetWidth: width },
+      div: { offsetHeight: height },
+      div,
+    } = this;
+    const { top, bottom, left, right } = div.getBoundingClientRect();
 
-const getRelations = () => {
-  blueHeight.innerText = `Height : ${blueResizer.newHeight}`;
-  blueWidth.innerText = `Width : ${blueResizer.newWidth}`;
+    const innerText = `
+  <span class="dim">Width : ${width}</span>
+  <span class="dim">Height : ${height}</span>
+  <span class="dim">Top : ${top}</span>
+  <span class="dim">Bottom : ${bottom}</span>
+  <span class="dim">Left : ${left}</span>
+  <span class="dim">Right : ${right}</span>
+  `;
+    amberBox.innerHTML = innerText;
+  },
+  '#ffe600'
+);
 
-  pinkHeight.innerText = `Height : ${pinkResizer.newHeight}`;
-  pinkWidth.innerText = `Width : ${pinkResizer.newWidth}`;
-
-  const dx =
-    resizerTwo.div.getBoundingClientRect().left -
-    resizerOne.div.getBoundingClientRect().right;
-
-  const dy =
-    resizerTwo.div.getBoundingClientRect().top -
-    resizerOne.div.getBoundingClientRect().bottom;
-
-  spanDx.innerText = `dx : ${dx} px`;
-  spanDy.innerText = `dy : ${dy} px`;
-};
-
-resizerOne.render();
-resizerTwo.render();
+pinkResizableBox.render();
+amberResizableBox.render();
