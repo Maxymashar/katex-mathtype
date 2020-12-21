@@ -1,5 +1,11 @@
 class Resizer {
-  constructor(initialTranslateX, initialTranslateY, color, onDimensionChange,outlineColor) {
+  constructor(
+    initialTranslateX,
+    initialTranslateY,
+    color,
+    onDimensionChange,
+    outlineColor
+  ) {
     this.globalTranslateX = initialTranslateX;
     this.globalTranslateY = initialTranslateY;
     this.originalRight = null;
@@ -20,14 +26,13 @@ class Resizer {
             const { left } = resizableDiv.getBoundingClientRect();
             const newWidth = clientX - left;
             resizableDiv.style.width = `${newWidth}px`;
-
+            // Set the translations
+            resizableDiv.style.transform = `translateX(${this.globalTranslateX}px) translateY(${this.globalTranslateY}px)`;
             // Call onDimensionChange
             this.onDimensionChange(
               resizableDiv.offsetWidth,
               resizableDiv.offsetHeight
             );
-            // Set the translations
-            resizableDiv.style.transform = `translateX(${this.globalTranslateX}px) translateY(${this.globalTranslateY}px)`;
           };
           const stopResize = () => {
             window.removeEventListener('mousemove', resize);
@@ -48,14 +53,14 @@ class Resizer {
             resizableDiv.style.width = `${
               difference + resizableDiv.offsetWidth
             }px`;
+            // Set the translations
+            this.globalTranslateX -= difference;
+            resizableDiv.style.transform = `translateX(${this.globalTranslateX}px) translateY(${this.globalTranslateY}px)`;
             // Call onDimensionChange
             this.onDimensionChange(
               resizableDiv.offsetWidth,
               resizableDiv.offsetHeight
             );
-            // Set the translations
-            this.globalTranslateX -= difference;
-            resizableDiv.style.transform = `translateX(${this.globalTranslateX}px) translateY(${this.globalTranslateY}px)`;
           };
           const stopResize = () => {
             window.removeEventListener('mousemove', resize);
@@ -92,14 +97,13 @@ class Resizer {
             resizableDiv.style.height = `${
               difference + resizableDiv.offsetHeight
             }px`;
-
+            this.globalTranslateY -= difference;
+            resizableDiv.style.transform = `translateX(${this.globalTranslateX}px) translateY(${this.globalTranslateY}px)`;
             // Call onDimensionChange
             this.onDimensionChange(
               resizableDiv.offsetWidth,
               resizableDiv.offsetHeight
             );
-            this.globalTranslateY -= difference;
-            resizableDiv.style.transform = `translateX(${this.globalTranslateX}px) translateY(${this.globalTranslateY}px)`;
           };
           const stopResize = () => {
             window.removeEventListener('mousemove', resize);
@@ -180,7 +184,7 @@ class Resizer {
             this.originalX = clientX;
             this.originalY = clientY;
 
-            // call onMouseChange\
+            // call onDimensionChange
             this.onDimensionChange(
               resizableDiv.offsetWidth,
               resizableDiv.offsetHeight
