@@ -4,7 +4,8 @@ class Resizer {
     initialTranslateY,
     color,
     onDimensionChange,
-    outlineColor
+    outlineColor,
+    onClick
   ) {
     this.globalTranslateX = initialTranslateX;
     this.globalTranslateY = initialTranslateY;
@@ -17,6 +18,7 @@ class Resizer {
     this.div = null;
     this.onDimensionChange = onDimensionChange;
     this.outlineColor = outlineColor;
+    this.onClick = onClick;
   }
   addMotion(resizer, resizableDiv, position) {
     switch (position) {
@@ -201,6 +203,10 @@ class Resizer {
         window.addEventListener('mouseup', stopMove);
       }
     };
+
+    resizableDiv.addEventListener('click', () => {
+      this.onClick();
+    });
     resizableDiv.addEventListener('mousedown', onMouseDown);
     // Add the styles
     resizableDiv.classList.add('resizable-div');

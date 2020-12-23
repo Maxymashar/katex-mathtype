@@ -3,8 +3,28 @@ import './katex';
 
 const pinkBox = document.getElementById('pink-box');
 const amberBox = document.getElementById('amber-box');
+const greenBox = document.getElementById('green-box');
 
-const pinkResizableBox = new Resizer(
+const reArrange = (name) => {
+  switch (name) {
+    case 'pink':
+      pinkResizableBox.div.style.zIndex = 1;
+      amberResizableBox.div.style.zIndex = 2;
+      greenResizableBox.div.style.zIndex = 3;
+      break;
+    case 'amber':
+      amberResizableBox.div.style.zIndex = 1;
+      pinkResizableBox.div.style.zIndex = 2;
+      greenResizableBox.div.style.zIndex = 3;
+      break;
+    case 'green':
+      greenResizableBox.div.style.zIndex = 1;
+      amberResizableBox.div.style.zIndex = 2;
+      pinkResizableBox.div.style.zIndex = 3;
+  }
+};
+
+let pinkResizableBox = new Resizer(
   50,
   100,
   'rgb(255, 103, 129)',
@@ -17,21 +37,24 @@ const pinkResizableBox = new Resizer(
     const { top, bottom, left, right } = div.getBoundingClientRect();
 
     const innerText = `
-  <span class="dim">Width : ${width}</span>
-  <span class="dim">Height : ${height}</span>
-  <span class="dim">Top : ${top}</span>
-  <span class="dim">Bottom : ${bottom}</span>
-  <span class="dim">Left : ${left}</span>
-  <span class="dim">Right : ${right}</span>
+  <pre class="dim">Width  : ${width}</pre>
+  <pre class="dim">Height : ${height}</pre>
+  <pre class="dim">Top    : ${top}</pre>
+  <pre class="dim">Bottom : ${bottom}</pre>
+  <pre class="dim">Left   : ${left}</pre>
+  <pre class="dim">Right  : ${right}</pre>
   `;
     pinkBox.innerHTML = innerText;
   },
-  'violet'
+  'violet',
+  () => {
+    reArrange('pink');
+  }
 );
 
-const amberResizableBox = new Resizer(
+let amberResizableBox = new Resizer(
   50,
-  300,
+  200,
   '#ffe600',
   function () {
     const {
@@ -42,17 +65,49 @@ const amberResizableBox = new Resizer(
     const { top, bottom, left, right } = div.getBoundingClientRect();
 
     const innerText = `
-  <span class="dim">Width : ${width}</span>
-  <span class="dim">Height : ${height}</span>
-  <span class="dim">Top : ${top}</span>
-  <span class="dim">Bottom : ${bottom}</span>
-  <span class="dim">Left : ${left}</span>
-  <span class="dim">Right : ${right}</span>
+  <pre class="dim">Width  : ${width}</pre>
+  <pre class="dim">Height : ${height}</pre>
+  <pre class="dim">Top    : ${top}</pre>
+  <pre class="dim">Bottom : ${bottom}</pre>
+  <pre class="dim">Left   : ${left}</pre>
+  <pre class="dim">Right  : ${right}</pre>
   `;
     amberBox.innerHTML = innerText;
   },
-  '#ffe600'
+  '#ffe600',
+  () => {
+    reArrange('amber');
+  }
+);
+
+let greenResizableBox = new Resizer(
+  50,
+  300,
+  'rgb(0, 173, 0)',
+  function () {
+    const {
+      div: { offsetWidth: width },
+      div: { offsetHeight: height },
+      div,
+    } = this;
+    const { top, bottom, left, right } = div.getBoundingClientRect();
+
+    const innerText = `
+  <pre class="dim">Width  : ${width}</pre>
+  <pre class="dim">Height : ${height}</pre>
+  <pre class="dim">Top    : ${top}</pre>
+  <pre class="dim">Bottom : ${bottom}</pre>
+  <pre class="dim">Left   : ${left}</pre>
+  <pre class="dim">Right  : ${right}</pre>
+  `;
+    greenBox.innerHTML = innerText;
+  },
+  'rgb(0, 173, 0)',
+  () => {
+    reArrange('green');
+  }
 );
 
 pinkResizableBox.render();
 amberResizableBox.render();
+greenResizableBox.render();

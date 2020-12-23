@@ -8,7 +8,7 @@ const button = document.querySelector('.katex-form button');
 const renderTex = () => {
   const tex = katexInput.value;
   if (tex.trim()) {
-    katex.render(tex, katexCanvas, { displayMode: true });
+    katex.render(tex, katexCanvas, { displayMode: true, throwOnError: true });
   }
 };
 
